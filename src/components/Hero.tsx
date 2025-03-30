@@ -35,12 +35,6 @@ const Hero = () => {
             >
               Call Now: +91 96637 88314
             </a>
-            <a
-              href="#"
-              className="btn bg-accent text-white hover:bg-white hover:text-primary font-medium px-8 py-3 rounded-sm"
-            >
-              Book Online
-            </a>
           </div>
         </div>
       </div>

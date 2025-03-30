@@ -89,9 +89,6 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-gray-700 pt-6 text-center text-gray-300 text-sm">
           <p>Copyright © All Rights Reserved</p>
-          <p className="mt-2">
-            Website Designed By <a href="https://www.zinavo.com/" className="text-accent hover:text-white" target="_blank" rel="noopener noreferrer">Zinavo</a>
-          </p>
         </div>
       </div>
     </footer>

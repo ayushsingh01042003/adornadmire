@@ -16,7 +16,6 @@ const About = () => {
             <p className="text-gray-700 mb-6">
               Therefore, we place a high priority on personalized attention and a warm, welcoming atmosphere. Our goal at Adorn & Admire isn't just to make people look good; we are also dedicated to creating happiness.
             </p>
-            <a href="/about-us" className="btn btn-outline inline-block mt-2">Read More</a>
           </div>
           <div className="w-full md:w-2/5">
             <img
