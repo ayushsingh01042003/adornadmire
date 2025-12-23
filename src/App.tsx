@@ -6,7 +6,6 @@ import Services from './components/Services';
 import Offers from './components/Offers';
 import Products from './components/Products';
 import ContactHours from './components/ContactHours';
-import Blog from './components/Blog';
 import Footer from './components/Footer';
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
         <Offers />
         <Products />
         <ContactHours />
-        {/* <Blog /> */}
       </main>
       <Footer />
     </div>
