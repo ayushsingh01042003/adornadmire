@@ -1,5 +1,5 @@
-import React from 'react';
 import { FaFacebookF, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import logo from '../assets/logo.avif'
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
           <div>
             <div className="mb-6">
               <img
-                src="https://adornadmire.com/wp-content/uploads/2023/10/logo.png"
+                src={logo}
                 alt="Adorn & Admire"
                 className="h-16 mb-4"
               />

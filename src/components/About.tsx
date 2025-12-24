@@ -1,4 +1,4 @@
-import React from 'react';
+import img from '../assets/about-img.jpeg'
 
 const About = () => {
   return (
@@ -19,7 +19,7 @@ const About = () => {
           </div>
           <div className="w-full md:w-2/5">
             <img
-              src="https://ext.same-assets.com/3541422158/3358946107.jpeg"
+              src={img}
               alt="About Adorn & Admire"
               className="w-full h-auto rounded-md shadow-lg"
             />

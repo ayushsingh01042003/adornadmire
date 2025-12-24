@@ -1,27 +1,18 @@
-import React from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import offer1 from '../assets/offer-1.jpeg'
+import offer2 from '../assets/offer-2.jpeg'
+import offer3 from '../assets/offer-3.jpeg'
+import offer4 from '../assets/offer-4.jpeg'
+import offer5 from '../assets/offer-5.jpeg'
 
 const Offers = () => {
   const offers = [
-    {
-      image: 'https://ext.same-assets.com/3541422158/3358946107.jpeg',
-      title: 'Combo Offer for Females',
-      cta: 'BOOK NOW',
-      url: '#',
-    },
-    {
-      image: 'https://ext.same-assets.com/3541422158/659592579.jpeg',
-      title: 'Combo Offer for Males',
-      cta: 'BOOK NOW',
-      url: '#',
-    },
-    {
-      image: 'https://ext.same-assets.com/3541422158/380228453.jpeg',
-      title: 'New Combo Offer',
-      cta: 'BOOK NOW',
-      url: '#',
-    },
+    { image: offer1, url: '#' },
+    { image: offer2, url: '#' },
+    { image: offer3, url: '#' },
+    { image: offer4, url: '#' },
+    { image: offer5, url: '#' },
   ];
 
   const brands = [
@@ -66,18 +57,9 @@ const Offers = () => {
                 <div className="relative overflow-hidden group">
                   <img
                     src={offer.image}
-                    alt={offer.title}
+                    // alt={offer.title}
                     className="w-full h-64 object-cover"
                   />
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center p-4 transition-all duration-300">
-                    <h3 className="text-xl text-white font-bold mb-4">{offer.title}</h3>
-                    <a
-                      href={offer.url}
-                      className="btn bg-accent text-white hover:bg-white hover:text-primary font-medium px-6 py-2"
-                    >
-                      {offer.cta}
-                    </a>
-                  </div>
                 </div>
               </div>
             ))}
@@ -89,18 +71,9 @@ const Offers = () => {
               <div key={index} className="relative overflow-hidden group">
                 <img
                   src={offer.image}
-                  alt={offer.title}
+                  // alt={offer.title}
                   className="w-full h-64 object-cover"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col items-center justify-center p-4">
-                  <h3 className="text-xl text-white font-bold mb-4">{offer.title}</h3>
-                  <a
-                    href={offer.url}
-                    className="btn bg-accent text-white hover:bg-white hover:text-primary font-medium px-6 py-2"
-                  >
-                    {offer.cta}
-                  </a>
-                </div>
               </div>
             ))}
           </div>

@@ -1,4 +1,6 @@
 import { FaStar } from 'react-icons/fa';
+import background from '../assets/background-vid.mp4'
+import posterImg from '../assets/background.jpeg'
 
 const Hero = () => {
   return (
@@ -7,13 +9,18 @@ const Hero = () => {
       className="relative min-h-screen flex items-center bg-black"
     >
       {/* Background image + overlay */}
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{
-          backgroundImage:
-            'url(https://ext.same-assets.com/3541422158/4090627419.jpeg)',
-        }}
-      />
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={posterImg}  // ← Fallback image
+      >
+      <source src={background} type="video/mp4" />
+      </video>
+      
+      {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/70" />
 
       {/* Content */}
@@ -56,7 +63,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <a
                 href="tel:+919663788314"
-                className="inline-flex items-center justify-center rounded-full bg-pink-600 px-8 py-3 text-sm md:text-base font-semibold text-white shadow-lg shadow-pink-500/30 hover:bg-pink-700 transition-colors"
+                className="inline-flex items-center justify-center rounded-full bg-black-600 px-8 py-3 text-sm md:text-base font-semibold text-white shadow-lg shadow-pink-500/30 hover:bg-pink-700 transition-colors"
               >
                 Book an Appointment Today
               </a>
