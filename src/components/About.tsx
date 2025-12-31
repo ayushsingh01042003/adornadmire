@@ -1,27 +1,25 @@
-import img from '../assets/about-img.jpeg'
+import img from "../assets/about-img.jpeg";
 
 const About = () => {
   return (
-    <section className="py-16 bg-background">
+    <section className="bg-background py-16">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row items-center gap-8">
+        <div className="flex flex-col items-center gap-8 md:flex-row">
           <div className="w-full md:w-3/5">
             <h2 className="section-title">About ADORN & ADMIRE</h2>
-            <p className="text-gray-700 mb-6">
-              At Adorn & Admire, we are dedicated to providing a pampering experience that will leave our clients feeling not only satisfied, but amazed. Our salon services range from hair styling to manicures, all designed to enhance your natural beauty and boost your self-confidence.
-            </p>
-            <p className="text-gray-700 mb-6">
-              It is our goal to ensure every customer leaves feeling like their best self thanks to our team of skilled professionals. The key to success lies not only in the quality of our services, but also in the relationships we build with our clients.
-            </p>
-            <p className="text-gray-700 mb-6">
-              Therefore, we place a high priority on personalized attention and a warm, welcoming atmosphere. Our goal at Adorn & Admire isn't just to make people look good; we are also dedicated to creating happiness.
+            <p className="mb-6 text-gray-700">
+              Love Your Look. Own the Room. Welcome to Adorn & Admire, your go-to destination for
+              head-turning transformations. We're obsessed with the details that make you unique.
+              Whether you're looking for a bold new glow-up or a subtle refresh, our expert team
+              blends modern techniques with timeless style. Adorn yourself with the best in hair and
+              beauty. Admire the most confident version of you. Book your chair today!
             </p>
           </div>
           <div className="w-full md:w-2/5">
             <img
               src={img}
               alt="About Adorn & Admire"
-              className="w-full h-auto rounded-md shadow-lg"
+              className="h-auto w-full rounded-md shadow-lg"
             />
           </div>
         </div>
