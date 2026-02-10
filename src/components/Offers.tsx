@@ -15,25 +15,6 @@ const Offers = () => {
     { image: offer5, url: '#' },
   ];
 
-  const brands = [
-    {
-      image: 'https://ext.same-assets.com/3541422158/3158797294.png',
-      name: "L'Oreal",
-    },
-    {
-      image: 'https://ext.same-assets.com/3541422158/2955878310.png',
-      name: "Lotus",
-    },
-    {
-      image: 'https://ext.same-assets.com/3541422158/2313962894.png',
-      name: "Schwarzkopf",
-    },
-    {
-      image: 'https://ext.same-assets.com/3541422158/1646695698.png',
-      name: "GK",
-    },
-  ];
-
   return (
     <section className="py-16 bg-primary">
       <div className="container mx-auto px-4">
@@ -77,19 +58,6 @@ const Offers = () => {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Brands */}
-        <div className="flex flex-wrap justify-center items-center gap-8">
-          {brands.map((brand, index) => (
-            <div key={index} className="flex-shrink-0">
-              <img
-                src={brand.image}
-                alt={brand.name}
-                className="h-16 md:h-20 object-contain"
-              />
-            </div>
-          ))}
         </div>
       </div>
     </section>
