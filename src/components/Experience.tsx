@@ -19,14 +19,16 @@ const Experience = () => {
 
         <div className="flex flex-col md:flex-row justify-center gap-6">
           <a
-            href="/contact-us"
+            href="#"
+            onClick={(e) => e.preventDefault()}
             className="btn bg-white text-primary hover:bg-accent hover:text-white font-medium px-8 py-3 rounded-sm text-center"
           >
             Adorn & Admire Salon
           </a>
           <a
-            href="/contact-us"
-            className="btn bg-accent text-white hover:bg-white hover:text-primary font-medium px-8 py-3 rounded-sm text-center"
+            href="#"
+            onClick={(e) => e.preventDefault()}
+            className="btn bg-white text-primary hover:bg-accent hover:text-white font-medium px-8 py-3 rounded-sm text-center"
           >
             Adorn & Admire Spa
           </a>

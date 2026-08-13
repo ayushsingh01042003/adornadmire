@@ -12,10 +12,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ icon, title, description }) =
     <div className="bg-white shadow-lg rounded-sm p-6 flex flex-col items-center hover:shadow-xl transition-shadow duration-300">
       <div className="text-4xl text-accent mb-4">{icon}</div>
       <h3 className="text-xl font-semibold text-primary mb-3">{title}</h3>
-      <p className="text-gray-600 text-center mb-4">{description}</p>
-      <a href="/services" className="text-accent hover:text-primary transition-colors font-medium">
-        Read More →
-      </a>
+      <p className="text-gray-600 text-center">{description}</p>
     </div>
   );
 };
@@ -45,7 +42,7 @@ const Services = () => {
   ];
 
   return (
-    <section className="py-16 bg-background">
+    <section id="services" className="py-16 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="section-title">Our Services</h2>

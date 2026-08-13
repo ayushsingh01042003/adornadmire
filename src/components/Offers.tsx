@@ -1,22 +1,20 @@
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import offer1 from '../assets/offer-1.jpeg'
-import offer2 from '../assets/offer-2.jpeg'
-import offer3 from '../assets/offer-3.jpeg'
-import offer4 from '../assets/offer-4.jpeg'
-import offer5 from '../assets/offer-5.jpeg'
+import offerOnamFestiveGlow from '../assets/offer-onam-festive-glow.png'
+import offerOnamPick5 from '../assets/offer-onam-pick5.png'
+import offerRakshaBandhan from '../assets/offer-raksha-bandhan.png'
+import offerRakshaBandhan2 from '../assets/offer-raksha-bandhan-2.png'
 
 const Offers = () => {
   const offers = [
-    { image: offer1, url: '#' },
-    { image: offer2, url: '#' },
-    { image: offer3, url: '#' },
-    { image: offer4, url: '#' },
-    { image: offer5, url: '#' },
+    { image: offerOnamFestiveGlow, alt: 'Happy Onam festive glow package' },
+    { image: offerOnamPick5, alt: 'Happy Onam pick any 5 services offer' },
+    { image: offerRakshaBandhan, alt: 'Happy Raksha Bandhan special offers' },
+    { image: offerRakshaBandhan2, alt: 'Happy Raksha Bandhan brother and sister packages' },
   ];
 
   return (
-    <section className="py-16 bg-primary">
+    <section id="offers" className="py-16 bg-primary">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-display text-white text-center mb-12">EXCLUSIVE OFFERS</h2>
 
@@ -35,11 +33,11 @@ const Offers = () => {
           >
             {offers.map((offer, index) => (
               <div key={index} className="px-2">
-                <div className="relative overflow-hidden group">
+                <div className="flex h-[420px] items-center justify-center overflow-hidden rounded-sm bg-black/20">
                   <img
                     src={offer.image}
-                    // alt={offer.title}
-                    className="w-full h-64 object-cover"
+                    alt={offer.alt}
+                    className="max-h-full max-w-full object-contain"
                   />
                 </div>
               </div>
@@ -49,11 +47,14 @@ const Offers = () => {
           {/* Mobile view for offers */}
           <div className="grid grid-cols-1 gap-6 md:hidden">
             {offers.map((offer, index) => (
-              <div key={index} className="relative overflow-hidden group">
+              <div
+                key={index}
+                className="flex aspect-[4/5] items-center justify-center overflow-hidden rounded-sm bg-black/20"
+              >
                 <img
                   src={offer.image}
-                  // alt={offer.title}
-                  className="w-full h-64 object-cover"
+                  alt={offer.alt}
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
             ))}

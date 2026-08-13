@@ -39,10 +39,10 @@ const Header = () => {
               Home
             </a>
             <a
-              href="#how-it-works"
+              href="#offers"
               className={`${baseTextColor} text-sm font-semibold tracking-wide transition-colors hover:text-pink-500 md:text-base`}
             >
-              How It Works
+              Offers
             </a>
             <a
               href="#reviews"
@@ -51,10 +51,10 @@ const Header = () => {
               Customer Reviews
             </a>
             <a
-              href="#why-us"
+              href="#services"
               className={`${baseTextColor} text-sm font-semibold tracking-wide transition-colors hover:text-pink-500 md:text-base`}
             >
-              Why Choose Us
+              Services
             </a>
 
             <a
