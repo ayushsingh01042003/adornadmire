@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
 import { FaStar, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
@@ -7,13 +8,36 @@ import { reportCallConversion } from '../lib/analytics';
 /**
  * Home page hero.
  *
- * The still image is always the first paint (and the mobile LCP). The looping
- * video sits on top of it from the `lg` breakpoint up, via a CSS media query
- * rather than a delayed JS mount, so a slow or touch laptop cannot leave the
- * hero blank. A solid `bg-primary` behind both means white type stays readable
- * even if a file 404s.
+ * The still image is always the first paint (and the LCP). The looping video
+ * sits on top of it at every breakpoint. A solid `bg-primary` behind both
+ * means white type stays readable even if a file 404s. `prefers-reduced-motion`
+ * hides the video so the still image remains.
  */
 export default function Hero() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const tryPlay = () => {
+      video.play().catch(() => {
+        // Autoplay can be blocked (e.g. iOS Low Power Mode). The still image
+        // underneath remains the fallback.
+      });
+    };
+
+    if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
+      tryPlay();
+    } else {
+      video.addEventListener('canplay', tryPlay, { once: true });
+    }
+
+    return () => {
+      video.removeEventListener('canplay', tryPlay);
+    };
+  }, []);
+
   return (
     <section
       className="relative flex min-h-[92vh] items-center overflow-hidden bg-primary pt-24 md:pt-28"
@@ -46,12 +70,13 @@ export default function Hero() {
         </picture>
 
         <video
-          className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:hidden lg:block"
+          ref={videoRef}
+          className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
           autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster="/img/poster-background-vid-480.jpg"
           tabIndex={-1}
         >
