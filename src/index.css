@@ -2,20 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Fonts are self-hosted from /public/fonts rather than fetched from
+ * fonts.googleapis.com and ext.same-assets.com. Both third-party requests cost
+ * a DNS lookup and TLS handshake on the critical path, and the previous
+ * heading font (Astrospace) had started returning HTTP 404, so every heading
+ * was silently falling back to system sans.
+ */
+
 @font-face {
-  font-family: 'Astrospace';
-  src: url('https://ext.same-assets.com/3541422158/1188579630.woff') format('woff');
-  font-weight: normal;
+  font-family: 'Lato';
+  src: url('/fonts/lato-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/fonts/lato-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Variable font: one file covers the whole 300-700 heading range. */
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/cormorant-garamond-var.woff2') format('woff2-variations');
+  font-weight: 300 700;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  font-family: 'Lato', sans-serif;
-  line-height: 1.5;
+  font-family: 'Lato', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.6;
   font-weight: 400;
   color: #362b25;
   background-color: #f8f6f5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -24,9 +51,14 @@ body {
   min-height: 100vh;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Astrospace', sans-serif;
-  font-weight: 700;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  font-weight: 600;
   line-height: 1.2;
 }
 
@@ -37,13 +69,41 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0 1rem;
 }
 
+/* Keyboard focus must stay visible: the design removes default outlines on
+   several interactive elements via Tailwind resets. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid #b78c64;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Skip link, revealed only on keyboard focus. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  padding: 0.75rem 1rem;
+  background: #362b25;
+  color: #fff;
+}
+
 @layer components {
   .btn {
-    @apply px-6 py-2 text-sm font-medium uppercase transition-colors duration-300;
+    @apply inline-flex items-center justify-center px-6 py-3 text-sm font-medium uppercase tracking-wide transition-colors duration-300;
   }
 
   .btn-primary {
     @apply bg-primary text-white hover:bg-accent;
+  }
+
+  .btn-accent {
+    @apply bg-accent text-white hover:bg-primary;
   }
 
   .btn-outline {
@@ -51,31 +111,40 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-display text-primary mb-4;
+    @apply font-display text-3xl text-primary md:text-4xl;
   }
 
   .section-subtitle {
-    @apply text-lg md:text-xl text-secondary mb-8;
+    @apply text-lg text-secondary md:text-xl;
+  }
+
+  .prose-body {
+    @apply text-base leading-relaxed text-gray-700 md:text-lg;
   }
 }
 
-/* Custom animation classes */
-.fade-in {
-  animation: fadeIn 0.5s ease-in-out;
+/*
+ * background-attachment: fixed forces a repaint on every scroll frame and is
+ * ignored or janky on most mobile browsers, so it is opt-in above the mobile
+ * breakpoint only.
+ */
+.bg-parallax {
+  background-attachment: scroll;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
+@media (min-width: 1024px) and (hover: hover) {
+  .bg-parallax {
+    background-attachment: fixed;
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .container {
-    padding: 0 1rem;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,21 +1,31 @@
 {
+  "include": [
+    "src",
+    "vite.config.ts",
+    "react-router.config.ts",
+    ".react-router/types/**/*"
+  ],
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "strict": true,
     "noFallthroughCasesInSwitch": true,
-    "noEmit": true
-  },
-  "include": [
-    "src",
-    "vite.config.ts"
-  ]
+    "noEmit": true,
+    "types": ["vite/client", "node"],
+    /* Lets the generated ./+types/<route> imports resolve against
+       .react-router/types, which React Router regenerates on each build. */
+    "rootDirs": [".", "./.react-router/types"],
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  }
 }

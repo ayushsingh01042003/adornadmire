@@ -1,89 +1,123 @@
-import { FaStar } from 'react-icons/fa';
-import background from '../assets/background-vid.mp4'
-import posterImg from '../assets/background.jpeg'
+import { Link } from 'react-router';
+import { FaStar, FaPhone, FaMapMarkerAlt, FaClock } from 'react-icons/fa';
 
-const Hero = () => {
+import { BUSINESS, REVIEW_COUNT_LABEL } from '../data/site';
+import { reportCallConversion } from '../lib/analytics';
+
+/**
+ * Home page hero.
+ *
+ * The still image is always the first paint (and the mobile LCP). The looping
+ * video sits on top of it from the `lg` breakpoint up, via a CSS media query
+ * rather than a delayed JS mount, so a slow or touch laptop cannot leave the
+ * hero blank. A solid `bg-primary` behind both means white type stays readable
+ * even if a file 404s.
+ */
+export default function Hero() {
   return (
     <section
+      className="relative flex min-h-[92vh] items-center overflow-hidden bg-primary"
       id="home"
-      className="relative min-h-screen flex items-center bg-black"
     >
-      {/* Background image + overlay */}
-      <video
-        className="absolute inset-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={posterImg}  // ← Fallback image
-      >
-      <source src={background} type="video/mp4" />
-      </video>
-      
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-black/70" />
+      <div className="absolute inset-0" aria-hidden="true">
+        <picture>
+          <source
+            type="image/avif"
+            srcSet="/img/hero-fallback-640.avif 640w, /img/hero-fallback-1280.avif 1280w, /img/hero-fallback-1920.avif 1920w"
+            sizes="100vw"
+          />
+          <source
+            type="image/webp"
+            srcSet="/img/hero-fallback-640.webp 640w, /img/hero-fallback-1280.webp 1280w, /img/hero-fallback-1920.webp 1920w"
+            sizes="100vw"
+          />
+          <img
+            src="/img/hero-fallback-1280.jpg"
+            srcSet="/img/hero-fallback-640.jpg 640w, /img/hero-fallback-1280.jpg 1280w, /img/hero-fallback-1920.jpg 1920w"
+            sizes="100vw"
+            alt=""
+            width={1920}
+            height={1440}
+            className="absolute inset-0 h-full w-full object-cover"
+            loading="eager"
+            decoding="sync"
+            fetchpriority="high"
+          />
+        </picture>
 
-      {/* Content */}
-      <div className="relative z-10 w-full">
-        <div className="max-w-6xl mx-auto px-4 lg:px-0 py-28 md:py-32 lg:py-40">
-          <div className="max-w-2xl">
-            <p className="text-sm uppercase tracking-[0.25em] text-pink-300 mb-4">
-              Hair • Skin • Beauty
-            </p>
+        <video
+          className="absolute inset-0 hidden h-full w-full object-cover motion-reduce:hidden lg:block"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster="/img/poster-background-vid-480.jpg"
+          tabIndex={-1}
+        >
+          <source src="/media/background-vid.webm" type="video/webm" />
+          <source src="/media/background-vid.mp4" type="video/mp4" />
+        </video>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight mb-4">
-              Best Salon in Kalyan Nagar
-            </h1>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/70" />
+      </div>
 
-            <p className="text-lg md:text-xl text-slate-100/90 mb-6">
-              Pamper yourself with expert hair, skin, and beauty services at{' '}
-              <span className="font-semibold text-pink-200">
-                Adorn &amp; Admire
-              </span>
-              , Kalyan Nagar&apos;s trusted salon for a luxurious, personalized
-              experience.
-            </p>
+      <div className="relative z-10 container mx-auto px-4 pt-24 text-white">
+        <div className="max-w-3xl">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-tertiary">
+            Hair &middot; Skin &middot; Beauty
+          </p>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2 mb-6">
-              <div className="flex items-center text-yellow-400">
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar />
-                <FaStar className="text-yellow-300" />
-              </div>
-              <span className="ml-2 text-sm text-slate-100">
-                Rated <span className="font-semibold">4.9/5</span> by 1500+ happy
-                customers
-              </span>
-            </div>
+          <h1 className="mb-5 font-display text-4xl leading-tight md:text-6xl">
+            Best Salon in Kalyan Nagar
+          </h1>
 
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <a
-                href="tel:+919663788314"
-                className="inline-flex items-center justify-center rounded-full bg-black-600 px-8 py-3 text-sm md:text-base font-semibold text-white shadow-lg shadow-pink-500/30 hover:bg-pink-700 transition-colors"
-              >
-                Book an Appointment Today
-              </a>
+          <p className="mb-6 max-w-2xl text-lg text-gray-200 md:text-xl">
+            Expert hair, skin, nail and makeup services at Adorn &amp; Admire &mdash; a
+            L&rsquo;Or&eacute;al Professionnel partner salon on CMR Main Road, HRBR Layout. Open
+            every day of the week.
+          </p>
 
-              <a
-                href="#how-it-works"
-                className="inline-flex items-center justify-center rounded-full border border-white/60 px-8 py-3 text-sm md:text-base font-semibold text-white hover:bg-white hover:text-slate-900 transition-colors"
-              >
-                How It Works
-              </a>
-            </div>
+          <p className="mb-8 flex flex-wrap items-center gap-2 text-gray-200">
+            <span className="flex text-accent" aria-hidden="true">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <FaStar key={i} />
+              ))}
+            </span>
+            <span>
+              Rated {BUSINESS.rating}/5 by {REVIEW_COUNT_LABEL} happy clients
+            </span>
+          </p>
 
-            <p className="text-xs md:text-sm text-slate-200/80">
-              Open daily • 10:30 AM – 9:00 PM • Kalyan Nagar, Bengaluru
-            </p>
+          <div className="mb-10 flex flex-wrap gap-3">
+            <a
+              href={`tel:${BUSINESS.phonePrimary}`}
+              onClick={() => reportCallConversion('hero')}
+              className="btn btn-accent"
+            >
+              <FaPhone aria-hidden="true" className="mr-2" />
+              Book an appointment
+            </a>
+            <Link
+              to="/services"
+              className="btn border border-white text-white hover:bg-white hover:text-primary"
+            >
+              View services
+            </Link>
           </div>
+
+          <ul className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-200">
+            <li className="flex items-center gap-2">
+              <FaClock aria-hidden="true" className="text-accent" />
+              {BUSINESS.hoursDaysLabel}, {BUSINESS.hoursLabel}
+            </li>
+            <li className="flex items-center gap-2">
+              <FaMapMarkerAlt aria-hidden="true" className="text-accent" />
+              {BUSINESS.locality}, {BUSINESS.city}
+            </li>
+          </ul>
         </div>
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

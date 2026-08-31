@@ -1,98 +1,171 @@
-import { FaFacebookF, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
-import logo from '../assets/logo.avif'
+import { Link } from 'react-router';
+import { FaFacebookF, FaInstagram, FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock } from 'react-icons/fa';
 
-const Footer = () => {
+import { BUSINESS, formatPhone } from '../data/site';
+import { SERVICES } from '../data/services';
+import { PRIMARY_NAV } from '../data/urls';
+import { reportCallConversion, trackEvent } from '../lib/analytics';
+
+export default function Footer() {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="bg-primary text-white pt-16 pb-6">
+    <footer className="bg-primary pb-6 pt-16 text-white">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {/* About */}
+        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <div className="mb-6">
-              <img
-                src={logo}
-                alt="Adorn & Admire"
-                className="h-16 mb-4"
-              />
-              <p className="mb-6 text-gray-300">
-                Our commitment is to offer an indulgent experience that leaves our clients not just satisfied, but truly astonished.
-              </p>
-              <div className="flex space-x-4">
-                <a
-                  href="https://www.facebook.com/AdornAdmireSalonWellnessKalyanNagar/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-primary hover:bg-accent hover:text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-                >
-                  <FaFacebookF />
-                </a>
-                <a
-                  href="https://www.instagram.com/adornadmire.co/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white text-primary hover:bg-accent hover:text-white w-8 h-8 rounded-full flex items-center justify-center transition-colors"
-                >
-                  <FaInstagram />
-                </a>
-              </div>
+            {/* White wordmark: the source logo is black and was previously
+                rendered near-invisible against this dark background. */}
+            <img
+              src="/img/logo-light-280.png"
+              srcSet="/img/logo-light-280.png 280w, /img/logo-light-560.png 560w"
+              sizes="160px"
+              alt={`${BUSINESS.name} salon, Kalyan Nagar`}
+              className="mb-4 h-auto w-[160px]"
+              width={280}
+              height={132}
+              loading="lazy"
+            />
+            <p className="mb-6 text-gray-300">
+              A L&rsquo;Or&eacute;al Professionnel partner salon in Kalyan Nagar, offering hair,
+              skin, nail and makeup services since {BUSINESS.foundingYear}.
+            </p>
+            <div className="flex space-x-3">
+              <a
+                href={BUSINESS.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${BUSINESS.name} on Facebook`}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-primary transition-colors hover:bg-accent hover:text-white"
+              >
+                <FaFacebookF aria-hidden="true" />
+              </a>
+              <a
+                href={BUSINESS.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${BUSINESS.name} on Instagram`}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-primary transition-colors hover:bg-accent hover:text-white"
+              >
+                <FaInstagram aria-hidden="true" />
+              </a>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xl font-semibold mb-6">QUICK LINKS</h4>
+          <nav aria-labelledby="footer-pages">
+            <h2 id="footer-pages" className="mb-6 font-display text-xl">
+              Quick Links
+            </h2>
             <ul className="space-y-3">
-              <li><a href="/" className="hover:text-accent transition-colors">Home</a></li>
-              <li><a href="/about-us" className="hover:text-accent transition-colors">About Us</a></li>
-              <li><a href="/services" className="hover:text-accent transition-colors">Services</a></li>
-              <li><a href="/products" className="hover:text-accent transition-colors">Products</a></li>
-              <li><a href="/gallery" className="hover:text-accent transition-colors">Gallery</a></li>
-              <li><a href="/contact-us" className="hover:text-accent transition-colors">Contact Us</a></li>
+              {PRIMARY_NAV.map((item) => (
+                <li key={item.to}>
+                  <Link to={item.to} className="transition-colors hover:text-accent">
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link to="/products" className="transition-colors hover:text-accent">
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link to="/blog" className="transition-colors hover:text-accent">
+                  Blog
+                </Link>
+              </li>
             </ul>
-          </div>
+          </nav>
 
-          {/* Services */}
-          <div>
-            <h4 className="text-xl font-semibold mb-6">SERVICES</h4>
+          <nav aria-labelledby="footer-services">
+            <h2 id="footer-services" className="mb-6 font-display text-xl">
+              Services
+            </h2>
             <ul className="space-y-3">
-              <li><a href="#" className="hover:text-accent transition-colors">Hair Service</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Skin Service</a></li>
-              <li><a href="#" className="hover:text-accent transition-colors">Nail Service</a></li>
+              {SERVICES.map((service) => (
+                <li key={service.slug}>
+                  <Link
+                    to={`/services/${service.slug}`}
+                    className="transition-colors hover:text-accent"
+                  >
+                    {service.shortTitle}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact Us */}
           <div>
-            <h4 className="text-xl font-semibold mb-6">CONTACT US</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <FaMapMarkerAlt className="text-accent mt-1 mr-3 flex-shrink-0" />
-                <p>No, 420, 1st Floor VP Plaza, CMR Main Road, 2nd Block HRBR Layout, Kalyan Nagar, Bangalore-560043</p>
-              </li>
-              <li className="flex items-center">
-                <FaPhone className="text-accent mr-3 flex-shrink-0" />
-                <div>
-                  <a href="tel:+919663788314" className="hover:text-accent transition-colors block">+91 96637 88314</a>
-                  <a href="tel:+919110423554" className="hover:text-accent transition-colors block">+91 91104 23554</a>
-                </div>
-              </li>
-              <li className="flex items-center">
-                <FaEnvelope className="text-accent mr-3 flex-shrink-0" />
-                <a href="mailto:adornadmire.kalyannagar@gmail.com" className="hover:text-accent transition-colors">
-                  adornadmire.kalyannagar@gmail.com
+            <h2 className="mb-6 font-display text-xl">Contact Us</h2>
+
+            {/*
+              Marked up as a postal address so assistive tech and parsers read
+              it as one unit. Must stay byte-identical to the Google Business
+              Profile: NAP consistency is a direct local ranking factor.
+            */}
+            <address className="space-y-4 not-italic">
+              <div className="flex items-start">
+                <FaMapMarkerAlt aria-hidden="true" className="mr-3 mt-1 flex-shrink-0 text-accent" />
+                <a
+                  href={BUSINESS.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('directions_click', { source: 'footer' })}
+                  className="transition-colors hover:text-accent"
+                >
+                  {BUSINESS.street}, {BUSINESS.locality}, {BUSINESS.city} &ndash;{' '}
+                  {BUSINESS.postalCode}
                 </a>
-              </li>
-            </ul>
+              </div>
+
+              <div className="flex items-start">
+                <FaPhone aria-hidden="true" className="mr-3 mt-1 flex-shrink-0 text-accent" />
+                <div>
+                  <a
+                    href={`tel:${BUSINESS.phonePrimary}`}
+                    onClick={() => reportCallConversion('footer-primary')}
+                    className="block transition-colors hover:text-accent"
+                  >
+                    {formatPhone(BUSINESS.phonePrimary)}
+                  </a>
+                  <a
+                    href={`tel:${BUSINESS.phoneSecondary}`}
+                    onClick={() => reportCallConversion('footer-secondary')}
+                    className="block transition-colors hover:text-accent"
+                  >
+                    {formatPhone(BUSINESS.phoneSecondary)}
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start">
+                <FaEnvelope aria-hidden="true" className="mr-3 mt-1 flex-shrink-0 text-accent" />
+                <a
+                  href={`mailto:${BUSINESS.email}`}
+                  className="break-all transition-colors hover:text-accent"
+                >
+                  {BUSINESS.email}
+                </a>
+              </div>
+
+              <div className="flex items-start">
+                <FaClock aria-hidden="true" className="mr-3 mt-1 flex-shrink-0 text-accent" />
+                <p>
+                  {BUSINESS.hoursDaysLabel}
+                  <br />
+                  {BUSINESS.hoursLabel}
+                </p>
+              </div>
+            </address>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-gray-700 pt-6 text-center text-gray-300 text-sm">
-          <p>Copyright © All Rights Reserved</p>
+        <div className="border-t border-gray-700 pt-6 text-center text-sm text-gray-300">
+          <p>
+            &copy; {year} {BUSINESS.legalName}. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

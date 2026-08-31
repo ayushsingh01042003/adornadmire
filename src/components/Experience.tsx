@@ -1,41 +1,42 @@
-import React from 'react';
+import { Link } from 'react-router';
 
-const Experience = () => {
+/**
+ * Ambient section between content blocks.
+ *
+ * The background image is served from the locally generated variants: the
+ * original referenced ext.same-assets.com, which now returns 404 for every
+ * asset, so this section was rendering as a bare dark overlay.
+ */
+export default function Experience() {
   return (
     <section
-      className="py-16 bg-cover bg-center relative"
-      style={{
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(https://ext.same-assets.com/3541422158/103857601.jpeg)',
-        backgroundAttachment: 'fixed',
-      }}
+      className="bg-parallax relative bg-cover bg-center py-24"
+      style={{ backgroundImage: "url('/img/experience-1600.jpg')" }}
+      aria-labelledby="experience-heading"
     >
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl font-display text-white mb-6">Experience Our Space</h2>
-          <p className="text-white text-lg max-w-3xl mx-auto">
-            Embark on a journey of discovery and delight as you immerse yourself in the essence of our captivating space.
-          </p>
-        </div>
+      <div className="absolute inset-0 bg-primary/70" />
 
-        <div className="flex flex-col md:flex-row justify-center gap-6">
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="btn bg-white text-primary hover:bg-accent hover:text-white font-medium px-8 py-3 rounded-sm text-center"
+      <div className="container relative mx-auto px-4 text-center text-white">
+        <h2 id="experience-heading" className="mb-4 font-display text-3xl md:text-4xl">
+          Experience Our Space
+        </h2>
+        <p className="mx-auto mb-8 max-w-2xl text-lg text-gray-200">
+          Two floors on CMR Main Road: a full salon floor for hair, nails and makeup, and a
+          quieter treatment area for skin and spa services.
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-3">
+          <Link to="/gallery" className="btn btn-accent">
+            See the gallery
+          </Link>
+          <Link
+            to="/services/skin"
+            className="btn border border-white text-white hover:bg-white hover:text-primary"
           >
-            Adorn & Admire Salon
-          </a>
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="btn bg-white text-primary hover:bg-accent hover:text-white font-medium px-8 py-3 rounded-sm text-center"
-          >
-            Adorn & Admire Spa
-          </a>
+            Spa &amp; skin services
+          </Link>
         </div>
       </div>
     </section>
   );
-};
-
-export default Experience;
+}

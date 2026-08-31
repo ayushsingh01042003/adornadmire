@@ -1,0 +1,70 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "build/client",
+  "installCommand": "npm install --omit=optional",
+
+  "cleanUrls": true,
+  "trailingSlash": false,
+
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "adornandadmire.com" }],
+      "destination": "https://www.adornadmire.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.adornandadmire.com" }],
+      "destination": "https://www.adornadmire.in/:path*",
+      "permanent": true
+    },
+    { "source": "/wp-sitemap.xml", "destination": "/sitemap.xml", "permanent": true },
+    { "source": "/wp-sitemap-:path*.xml", "destination": "/sitemap.xml", "permanent": true },
+    { "source": "/about", "destination": "/about-us", "permanent": true },
+    { "source": "/contact", "destination": "/contact-us", "permanent": true },
+    { "source": "/service", "destination": "/services", "permanent": true },
+    { "source": "/hair", "destination": "/services/hair", "permanent": true },
+    { "source": "/skin", "destination": "/services/skin", "permanent": true },
+    { "source": "/nails", "destination": "/services/nails", "permanent": true },
+    { "source": "/makeup", "destination": "/services/makeup", "permanent": true },
+    { "source": "/mens", "destination": "/services/mens-grooming", "permanent": true },
+    { "source": "/blog/:slug", "destination": "/:slug", "permanent": true },
+    { "source": "/offers", "destination": "/services", "permanent": true }
+  ],
+
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, must-revalidate" }]
+    },
+    {
+      "source": "/media/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=2592000, must-revalidate" }]
+    },
+    {
+      "source": "/(robots.txt|sitemap.xml)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Permissions-Policy", "value": "geolocation=(), microphone=(), camera=()" }
+      ]
+    }
+  ]
+}
