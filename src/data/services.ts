@@ -1,3 +1,6 @@
+import { HAIR_COLOUR_IMAGES } from './hair-colour';
+import { NAIL_DIARY_IMAGES, NAIL_DIARY_VIDEOS } from './nail-diary';
+
 /**
  * Service catalogue. Each entry becomes a pre-rendered page at
  * /services/<slug> and feeds the Service/OfferCatalog JSON-LD.
@@ -19,6 +22,31 @@ export interface Treatment {
 
 export interface ServiceFaq { question: string; answer: string }
 
+export interface PortfolioImage {
+  /** Base name for /img/{name}-{width}.* variants. */
+  name: string;
+  alt: string;
+  width: number;
+  height: number;
+  widths?: number[];
+}
+
+export interface PortfolioVideo {
+  /** Base name for /media/{id}.mp4 and /img/poster-{id}-960.jpg */
+  id: string;
+  title: string;
+  description?: string;
+  /** Override poster image base name when /img/poster-{id}-960.jpg is unavailable. */
+  poster?: string;
+}
+
+export interface PortfolioSection {
+  heading: string;
+  intro?: string;
+  images: PortfolioImage[];
+  videos?: PortfolioVideo[];
+}
+
 export interface Service {
   slug: string;
   /** Nav / card label. */
@@ -37,6 +65,8 @@ export interface Service {
   treatments: Treatment[];
   faqs: ServiceFaq[];
   audience: 'women' | 'men' | 'all';
+  /** Optional image portfolios shown below the main service copy. */
+  portfolios?: PortfolioSection[];
 }
 
 export const SERVICES: Service[] = [
@@ -76,6 +106,13 @@ export const SERVICES: Service[] = [
           'GK keratin is our flagship smoothening treatment, priced up to waist length. It reduces frizz and cuts blow-dry time substantially while keeping some natural movement, which is what most clients actually want rather than a poker-straight finish. Results typically hold for three to five months depending on wash frequency and aftercare.',
           'For hair that is already stressed from previous chemical work, we will often recommend a course of in-salon bond-building or scalp treatments before any new colour or smoothening. It is a slower path but it protects the hair you already have.',
         ],
+      },
+    ],
+    portfolios: [
+      {
+        heading: 'Hair colour',
+        intro: 'Balayage, global colour, highlights and gloss treatments from our colourists.',
+        images: HAIR_COLOUR_IMAGES,
       },
     ],
     treatments: [
@@ -255,6 +292,14 @@ export const SERVICES: Service[] = [
         body: [
           'Classic and spa manicures and pedicures are available on their own or before an extension set. If you want extensions and a pedicure in one visit, mention it at booking so we can hold a longer slot.',
         ],
+      },
+    ],
+    portfolios: [
+      {
+        heading: 'Nail diary',
+        intro: 'Hand-painted nail art, gel extensions and custom sets from our nail artist.',
+        images: NAIL_DIARY_IMAGES,
+        videos: NAIL_DIARY_VIDEOS,
       },
     ],
     treatments: [

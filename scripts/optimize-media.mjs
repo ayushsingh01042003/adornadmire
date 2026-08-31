@@ -5,7 +5,10 @@
  *
  * Deliberately a committed, idempotent build step rather than a one-off manual
  * conversion, so re-running it after replacing an original reproduces the whole
- * set. Outputs are written to public/ and are gitignored.
+ * set. Outputs are written to public/ and pruned by cleanup-unused-media.mjs.
+ *
+ * Layout: src/assets/ holds originals (never served). public/img and
+ * public/media hold the optimised files visitors actually download.
  *
  * The videos were the single worst performance problem on the old build:
  * 31 MB total, because three decorative hover-to-play clips were shipped at
@@ -64,6 +67,16 @@ async function sizeOf(file) {
   } catch {
     return 'missing';
   }
+}
+
+/** JPEG-only poster for <video poster> attributes (no AVIF/WebP needed). */
+async function posterJpeg(input, name, width) {
+  await sharp(input, { failOn: 'none' })
+    .rotate()
+    .resize({ width, fit: 'inside', withoutEnlargement: false })
+    .jpeg(JPEG)
+    .toFile(path.join(IMG_OUT, `${name}-${width}.jpg`));
+  log(`${name}: ${width}px jpg ${await sizeOf(path.join(IMG_OUT, `${name}-${width}.jpg`))}`);
 }
 
 /**
@@ -312,8 +325,6 @@ async function buildIcons() {
 
   const opaque = { r: 0xf8, g: 0xf6, b: 0xf5, alpha: 1 };
 
-  await writeFile(path.join(PUB, 'favicon-32.png'), await square(32, opaque));
-  await writeFile(path.join(PUB, 'favicon-16.png'), await square(16, opaque));
   await writeFile(path.join(PUB, 'apple-touch-icon.png'), await square(180, opaque));
   await writeFile(path.join(PUB, 'icon-192.png'), await square(192, opaque));
   await writeFile(path.join(PUB, 'icon-512.png'), await square(512, opaque));
@@ -321,7 +332,7 @@ async function buildIcons() {
   const ico = await square(32, opaque);
   await writeFile(path.join(PUB, 'favicon.ico'), pngToIco(ico, 32));
 
-  log('icons: favicon.ico, favicon-16/32, apple-touch-icon, icon-192, icon-512');
+  log('icons: favicon.ico, apple-touch-icon, icon-192, icon-512');
 }
 
 /**
@@ -381,51 +392,71 @@ async function main() {
   await mkdir(tmp, { recursive: true });
 
   console.log('\nVideos (trimmed, silent, dual-codec)');
-  // vid1 runs 92s, vid3 51s, vid2 58s. Ten seconds is more than enough for a
-  // hover preview and is where almost all of the 31 MB saving comes from.
-  await optimizeVideo('vid1', { start: 2, duration: 10 });
-  await optimizeVideo('vid2', { start: 1, duration: 10 });
-  await optimizeVideo('vid3', { start: 1, duration: 10 });
+  await optimizeVideo('vid1', { start: 0, duration: 10 });
+  await optimizeVideo('vid2', { start: 0, duration: 10 });
+  await optimizeVideo('vid3', { start: 0, duration: 10 });
   // Hero background: portrait source, kept short and capped taller since it is
   // cropped to fill a wide viewport.
   await optimizeVideo('background-vid', { start: 0, duration: 9, maxHeight: 720 });
+  await optimizeVideo('nail-diary-vid', { start: 0, duration: 15 });
 
   console.log('\nVideo posters');
-  for (const name of ['vid1', 'vid2', 'vid3', 'background-vid']) {
-    // Poster is taken from the trimmed output so it matches the first frames
-    // the visitor actually sees on hover.
-    const frame = await bestFrameFrom(path.join(MEDIA_OUT, `${name}.mp4`), tmp, `poster-${name}`);
-    await responsiveImage(frame, `poster-${name}`, [480, 960]);
+  for (const [name, width] of [
+    ['poster-vid1', 960],
+    ['poster-vid2', 960],
+    ['poster-vid3', 960],
+    ['poster-background-vid', 480],
+  ]) {
+    const videoName = name.replace('poster-', '');
+    const videoPath = path.join(MEDIA_OUT, `${videoName}.mp4`);
+    let frame;
+    try {
+      frame = await bestFrameFrom(videoPath, tmp, name);
+    } catch {
+      const fallback = path.join(tmp, `${name}-fallback.jpg`);
+      await frameFrom(videoPath, 0.5, fallback);
+      frame = fallback;
+      log(`${name}: poster fallback at 0.5s`);
+    }
+    await posterJpeg(frame, name, width);
   }
 
   console.log('\nContent images');
   await responsiveImage(path.join(SRC, 'about-img.jpeg'), 'about', [400, 800, 1200]);
   await responsiveImage(path.join(SRC, 'background.jpeg'), 'hero-fallback', [640, 1280, 1920]);
-  await responsiveImage(path.join(SRC, 'background.jpeg'), 'experience', [800, 1600]);
+  await sharp(path.join(SRC, 'background.jpeg'))
+    .rotate()
+    .resize({ width: 1600, fit: 'inside', withoutEnlargement: true })
+    .jpeg(JPEG)
+    .toFile(path.join(IMG_OUT, 'experience-1600.jpg'));
+  log(`experience: 1600px jpg ${await sizeOf(path.join(IMG_OUT, 'experience-1600.jpg'))}`);
 
+  for (const name of ['offer-hair-protein', 'offer-hydra-facial']) {
+    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [512, 1024]);
+  }
+
+  console.log('\nProduct images');
   for (const name of [
-    'offer-onam-festive-glow',
-    'offer-onam-pick5',
-    'offer-raksha-bandhan',
-    'offer-raksha-bandhan-2',
+    'product-botoliss-salon',
+    'product-botoliss-pro100',
+    'product-anddone-take-control',
+    'product-anddone-begin-again',
+    'product-loreal-xtenso',
   ]) {
-    await responsiveImage(path.join(SRC, `${name}.png`), name, [512, 1024]);
+    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [400, 800]);
   }
 
-  console.log('\nBlog images (frames from the salon footage: the previous');
-  console.log('remote stock images on ext.same-assets.com now all return 404)');
-  for (const [slug, video] of [
-    ['blog-haircut', 'vid1'],
-    ['blog-smoothening', 'vid3'],
-  ]) {
-    // Sourced from the full-length originals so the candidate pool is wider
-    // than the 10 second trim used for the hover clips.
-    const frame = await bestFrameFrom(path.join(SRC, `${video}.mp4`), tmp, slug);
-    await responsiveImage(frame, slug, [480, 960]);
+  console.log('\nHair colour portfolio');
+  for (let i = 1; i <= 14; i++) {
+    const name = `hair-colour-${String(i).padStart(2, '0')}`;
+    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [480, 960]);
   }
-  // vid2 is uniformly overexposed (mean luminance above 240 across its whole
-  // length), so the massage post uses the interior photograph instead.
-  await responsiveImage(path.join(SRC, 'about-img.jpeg'), 'blog-massage', [480, 960]);
+
+  console.log('\nNail diary portfolio');
+  for (let i = 1; i <= 4; i++) {
+    const name = `nail-diary-${String(i).padStart(2, '0')}`;
+    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [480, 960]);
+  }
 
   console.log('\nLogo variants');
   await buildLogoVariants();

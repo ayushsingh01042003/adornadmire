@@ -10,7 +10,7 @@
     "dev": "react-router dev --host 0.0.0.0",
     "build": "react-router build && node scripts/postbuild.mjs",
     "preview": "npx --yes serve@14 build/client --no-clipboard",
-    "media": "node scripts/optimize-media.mjs",
+    "media": "node scripts/optimize-media.mjs && node scripts/cleanup-unused-media.mjs",
     "typecheck": "react-router typegen && tsc --noEmit",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx}\""

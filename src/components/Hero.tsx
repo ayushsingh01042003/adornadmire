@@ -73,9 +73,8 @@ export default function Hero() {
           </h1>
 
           <p className="mb-6 max-w-2xl text-lg text-gray-200 md:text-xl">
-            Expert hair, skin, nail and makeup services at Adorn &amp; Admire &mdash; a
-            L&rsquo;Or&eacute;al Professionnel partner salon on CMR Main Road, HRBR Layout. Open
-            every day of the week.
+            Expert hair, skin, nail and makeup services at Adorn &amp; Admire on CMR Main Road,
+            HRBR Layout. Open every day of the week.
           </p>
 
           <p className="mb-8 flex flex-wrap items-center gap-2 text-gray-200">

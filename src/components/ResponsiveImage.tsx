@@ -19,6 +19,8 @@ interface Props {
   className?: string;
   /** Only the LCP image should be eager; everything else stays lazy. */
   priority?: boolean;
+  /** Skip AVIF/WebP sources when only JPEG variants exist (e.g. video posters). */
+  jpgOnly?: boolean;
 }
 
 export default function ResponsiveImage({
@@ -30,11 +32,27 @@ export default function ResponsiveImage({
   height,
   className,
   priority = false,
+  jpgOnly = false,
 }: Props) {
   const srcSet = (ext: string) =>
     widths.map((w) => `/img/${name}-${w}.${ext} ${w}w`).join(', ');
 
   const fallbackWidth = widths[widths.length - 1];
+
+  if (jpgOnly) {
+    return (
+      <img
+        src={`/img/${name}-${fallbackWidth}.jpg`}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding={priority ? 'sync' : 'async'}
+        fetchpriority={priority ? 'high' : 'auto'}
+      />
+    );
+  }
 
   return (
     <picture>

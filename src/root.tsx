@@ -180,11 +180,6 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
               </Link>
             </li>
             <li>
-              <Link className="underline hover:text-accent" to="/blog">
-                Blog
-              </Link>
-            </li>
-            <li>
               <Link className="underline hover:text-accent" to="/contact-us">
                 Contact
               </Link>

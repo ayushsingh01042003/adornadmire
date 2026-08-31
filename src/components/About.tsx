@@ -34,10 +34,9 @@ export default function About({ headingLevel = 'h2' }: { headingLevel?: 'h1' | '
               skin, nails and makeup under one roof, for women and men.
             </p>
             <p>
-              We are a listed L&rsquo;Or&eacute;al Professionnel partner salon, which means the
-              colour and care systems we use are professional-grade rather than retail. That matters
-              most on chemical work &mdash; lightening, balayage and keratin are only as good as the
-              products and the person applying them.
+              The colour and care systems we use are professional-grade rather than retail. That
+              matters most on chemical work &mdash; lightening, balayage and keratin are only as
+              good as the products and the person applying them.
             </p>
             <p>
               Every service starts with a consultation rather than a price list. We would rather

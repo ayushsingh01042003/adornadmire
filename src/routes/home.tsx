@@ -3,10 +3,10 @@ import type { MetaFunction } from 'react-router';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import ServicesGrid from '../components/ServicesGrid';
+import Offers from '../components/Offers';
 import Experience from '../components/Experience';
 import Gallery from '../components/Gallery';
 import Reviews from '../components/Reviews';
-import BlogList from '../components/BlogList';
 import CallToAction from '../components/CallToAction';
 import Faq from '../components/Faq';
 import { buildMeta } from '../lib/seo';
@@ -36,7 +36,7 @@ const HOME_FAQS = [
   {
     question: 'Which product brands do you use?',
     answer:
-      'We are a listed L\u2019Or\u00e9al Professionnel partner salon and also work with K\u00e9rastase and Matrix. All colour and care services use professional-grade product rather than retail lines.',
+      'We work with professional ranges including Botoliss, &done, L\u2019Or\u00e9al Professionnel and Matrix. All colour and care services use salon-grade product rather than retail lines.',
   },
 ];
 
@@ -44,7 +44,7 @@ export const meta: MetaFunction = () =>
   buildMeta({
     title: 'Best Salon in Kalyan Nagar',
     description:
-      'L\u2019Or\u00e9al Professionnel partner salon in Kalyan Nagar, Bengaluru. Haircuts, balayage, keratin, facials, nails and bridal makeup. Open daily, 10:30 AM\u20139 PM.',
+      'Full-service salon in Kalyan Nagar, Bengaluru. Haircuts, balayage, keratin, facials, nails and bridal makeup. Open daily, 10:30 AM\u20139 PM.',
     path: '/',
     extra: [{ 'script:ld+json': faqSchema(HOME_FAQS) }],
   });
@@ -55,10 +55,10 @@ export default function Home() {
       <Hero />
       <About />
       <ServicesGrid />
+      <Offers />
       <Experience />
       <Gallery />
       <Reviews />
-      <BlogList limit={3} />
       <Faq items={HOME_FAQS} heading="Common questions" />
       <CallToAction />
     </>

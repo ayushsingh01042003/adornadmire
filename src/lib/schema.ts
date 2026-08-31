@@ -12,7 +12,6 @@
 
 import { BUSINESS, SITE_ORIGIN } from '../data/site';
 import { SERVICES, type Service, type Treatment } from '../data/services';
-import type { BlogPost } from '../data/blog';
 import { canonicalUrl } from './seo';
 
 type Json = Record<string, unknown>;
@@ -182,29 +181,6 @@ export function faqSchema(faqs: { question: string; answer: string }[]): Json {
       name: faq.question,
       acceptedAnswer: { '@type': 'Answer', text: faq.answer },
     })),
-  };
-}
-
-export function blogPostingSchema(post: BlogPost, imageUrl: string): Json {
-  const url = canonicalUrl(`/${post.slug}`);
-  return {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    '@id': `${url}#article`,
-    headline: post.title,
-    description: post.metaDescription,
-    url,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    datePublished: post.datePublished,
-    dateModified: post.dateModified,
-    inLanguage: 'en-IN',
-    wordCount: post.sections.reduce(
-      (total, section) => total + section.body.join(' ').split(/\s+/).length,
-      0,
-    ),
-    image: { '@type': 'ImageObject', url: imageUrl },
-    author: { '@type': 'Organization', name: post.author, '@id': SALON_ID },
-    publisher: { '@id': SALON_ID },
   };
 }
 

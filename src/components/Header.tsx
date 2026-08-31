@@ -138,11 +138,6 @@ export default function Header() {
                   Products
                 </Link>
               </li>
-              <li>
-                <Link to="/blog" className="block py-3 text-base font-medium uppercase text-primary">
-                  Blog
-                </Link>
-              </li>
             </ul>
 
             <a

@@ -10,7 +10,6 @@
  */
 
 import { SERVICES } from './services';
-import { BLOG_POSTS } from './blog';
 
 export interface SiteUrl {
   path: string;
@@ -37,13 +36,6 @@ export const SITE_URLS: SiteUrl[] = [
   { path: '/gallery', changefreq: 'monthly', priority: 0.6, lastmod: BUILD_DATE },
   { path: '/reviews', changefreq: 'weekly', priority: 0.6, lastmod: BUILD_DATE },
   { path: '/products', changefreq: 'monthly', priority: 0.5, lastmod: BUILD_DATE },
-  { path: '/blog', changefreq: 'weekly', priority: 0.6, lastmod: BUILD_DATE },
-  ...BLOG_POSTS.map<SiteUrl>((post) => ({
-    path: `/${post.slug}`,
-    changefreq: 'yearly',
-    priority: 0.7,
-    lastmod: post.dateModified,
-  })),
 ];
 
 /** Paths only, for react-router.config.ts prerender(). */

@@ -69,11 +69,6 @@ export default function Footer() {
                   Products
                 </Link>
               </li>
-              <li>
-                <Link to="/blog" className="transition-colors hover:text-accent">
-                  Blog
-                </Link>
-              </li>
             </ul>
           </nav>
 

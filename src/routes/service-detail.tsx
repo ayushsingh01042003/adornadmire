@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router';
 import PageHeader from '../components/PageHeader';
 import CallToAction from '../components/CallToAction';
 import Faq from '../components/Faq';
+import ServicePortfolio from '../components/ServicePortfolio';
 import { SERVICES, getServiceBySlug } from '../data/services';
-import { BLOG_POSTS } from '../data/blog';
 import { buildMeta } from '../lib/seo';
 import { breadcrumbSchema, faqSchema, serviceSchema } from '../lib/schema';
 
@@ -67,7 +67,6 @@ export default function ServiceDetail() {
     { name: service.shortTitle, path: `/services/${service.slug}` },
   ];
 
-  const relatedPosts = BLOG_POSTS.filter((post) => post.relatedServices.includes(service.slug));
   const otherServices = SERVICES.filter((s) => s.slug !== service.slug);
 
   return (
@@ -103,29 +102,11 @@ export default function ServiceDetail() {
         </div>
       </article>
 
-      <Faq items={service.faqs} heading={`${service.shortTitle} questions`} />
-
-      {relatedPosts.length > 0 && (
-        <section className="bg-background py-16" aria-labelledby="related-reading">
-          <div className="container mx-auto px-4">
-            <h2 id="related-reading" className="section-title mb-8 text-center">
-              Related Reading
-            </h2>
-            <ul className="mx-auto grid max-w-4xl gap-4">
-              {relatedPosts.map((post) => (
-                <li key={post.slug} className="rounded-sm bg-white p-5 shadow-sm">
-                  <h3 className="mb-1 font-display text-xl">
-                    <Link to={`/${post.slug}`} className="text-primary hover:text-accent">
-                      {post.title}
-                    </Link>
-                  </h3>
-                  <p className="prose-body text-base">{post.excerpt}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+      {service.portfolios && service.portfolios.length > 0 && (
+        <ServicePortfolio sections={service.portfolios} />
       )}
+
+      <Faq items={service.faqs} heading={`${service.shortTitle} questions`} />
 
       <section className="bg-white py-14" aria-labelledby="other-services">
         <div className="container mx-auto px-4 text-center">

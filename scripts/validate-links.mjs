@@ -27,6 +27,10 @@ const REDIRECTS = new Map([
   ['/nails', '/services/nails'],
   ['/makeup', '/services/makeup'],
   ['/mens', '/services/mens-grooming'],
+  ['/blog', '/'],
+  ['/what-are-the-benefits-of-hair-smoothening', '/services/hair'],
+  ['/transform-your-look-with-our-signature-haircut-services', '/services/hair'],
+  ['/what-are-the-benefits-of-regular-body-massage', '/services/skin'],
 ]);
 
 const errors = [];
@@ -62,32 +66,14 @@ function extractSourceLinks(content) {
   return links;
 }
 
-/** Validate dynamic /services/:slug and /:postSlug links against data files. */
+/** Validate dynamic /services/:slug links against data files. */
 async function validateDynamicRoutes() {
   const servicesSrc = await readFile(path.join(SRC, 'data/services.ts'), 'utf8');
-  const blogSrc = await readFile(path.join(SRC, 'data/blog.ts'), 'utf8');
 
   for (const m of servicesSrc.matchAll(/slug:\s*'([^']+)'/g)) {
     const route = `/services/${m[1]}`;
     if (!STATIC_ROUTES.has(route)) {
       errors.push(`src/data/services.ts: ${route} is not in sitemap.xml`);
-    }
-  }
-
-  for (const m of blogSrc.matchAll(/slug:\s*'([^']+)'/g)) {
-    const route = `/${m[1]}`;
-    if (!STATIC_ROUTES.has(route)) {
-      errors.push(`src/data/blog.ts: ${route} is not in sitemap.xml`);
-    }
-  }
-
-  for (const m of blogSrc.matchAll(/relatedServices:\s*\[([^\]]+)\]/g)) {
-    for (const slug of m[1].match(/'([^']+)'/g) ?? []) {
-      const serviceSlug = slug.slice(1, -1);
-      const route = `/services/${serviceSlug}`;
-      if (!STATIC_ROUTES.has(route)) {
-        errors.push(`src/data/blog.ts: relatedServices references missing route ${route}`);
-      }
     }
   }
 }
@@ -145,11 +131,6 @@ function isInternal(href) {
 function routeExists(routePath) {
   if (STATIC_ROUTES.has(routePath)) return true;
   if (REDIRECTS.has(routePath)) return true;
-  // Legacy /blog/:slug redirects to /:slug
-  if (routePath.startsWith('/blog/')) {
-    const slug = routePath.slice('/blog/'.length);
-    return STATIC_ROUTES.has(`/${slug}`);
-  }
   return false;
 }
 
