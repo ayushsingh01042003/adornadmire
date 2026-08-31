@@ -16,7 +16,7 @@ import { reportCallConversion } from '../lib/analytics';
 export default function Hero() {
   return (
     <section
-      className="relative flex min-h-[92vh] items-center overflow-hidden bg-primary"
+      className="relative flex min-h-[92vh] items-center overflow-hidden bg-primary pt-24 md:pt-28"
       id="home"
     >
       <div className="absolute inset-0" aria-hidden="true">
@@ -62,7 +62,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/65 via-black/50 to-black/70" />
       </div>
 
-      <div className="relative z-10 container mx-auto px-4 pt-24 text-white">
+      <div className="relative z-10 container mx-auto px-4 py-10 text-white md:py-12">
         <div className="max-w-3xl">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-tertiary">
             Hair &middot; Skin &middot; Beauty

@@ -37,10 +37,34 @@ function seoFiles(): Plugin {
   };
 }
 
+/**
+ * Chrome DevTools automatically requests /.well-known/appspecific/… in dev.
+ * It is not an app route; answering before React Router avoids noisy stack traces.
+ */
+function ignoreWellKnown(): Plugin {
+  return {
+    name: 'adorn-ignore-well-known',
+    configureServer: {
+      order: 'pre',
+      handler(server) {
+        server.middlewares.use((req, res, next) => {
+          const path = req.url?.split('?')[0] ?? '';
+          if (path.startsWith('/.well-known/')) {
+            res.statusCode = 404;
+            res.end();
+            return;
+          }
+          next();
+        });
+      },
+    },
+  };
+}
+
 export default defineConfig({
   // reactRouter() supplies the React transform, so @vitejs/plugin-react is not
   // used here; adding both would apply the Fast Refresh transform twice.
-  plugins: [seoFiles(), reactRouter()],
+  plugins: [ignoreWellKnown(), seoFiles(), reactRouter()],
 
   build: {
     // Media is served from public/ at stable paths, so nothing should be

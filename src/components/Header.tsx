@@ -31,7 +31,10 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const solid = isScrolled || isMenuOpen;
+  // Home sits on a dark hero, so the bar can stay transparent at the top.
+  // Every other route has a light page header, so the bar must be solid
+  // immediately or the white wordmark disappears into the background.
+  const solid = isScrolled || isMenuOpen || location.pathname !== '/';
 
   return (
     <header
@@ -39,14 +42,15 @@ export default function Header() {
         solid ? 'bg-background shadow-md' : 'bg-black/25'
       }`}
     >
-      <div className="container mx-auto flex items-center justify-between px-4 py-3">
-        <Link to="/" aria-label={`${BUSINESS.name} home`} className="flex-shrink-0">
+      <div className="container mx-auto flex h-[4.5rem] items-center justify-between gap-3 px-4 md:h-20">
+        <Link to="/" aria-label={`${BUSINESS.name} home`} className="min-w-0 shrink">
           {/* The wordmark is black, so it needs the white variant while the
-              header is transparent over the dark hero. */}
+              header is transparent over the dark hero. Height-constrained so
+              the stacked mark stays inside the bar on narrow phones. */}
           <img
             src={solid ? '/img/logo-dark-280.png' : '/img/logo-light-280.png'}
             alt={`${BUSINESS.name} salon, Kalyan Nagar`}
-            className="h-auto w-[130px] md:w-[150px]"
+            className="h-11 w-auto max-w-[min(11rem,calc(100vw-8.5rem))] object-contain object-left md:h-12"
             width={280}
             height={132}
             loading="eager"
@@ -75,11 +79,19 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <a
             href={`tel:${BUSINESS.phonePrimary}`}
             onClick={() => reportCallConversion('header')}
-            className="btn btn-accent hidden py-2 sm:inline-flex"
+            aria-label={`Call ${formatPhone(BUSINESS.phonePrimary)}`}
+            className={`inline-flex h-11 w-11 items-center justify-center text-lg lg:hidden ${solid ? 'text-primary' : 'text-white'}`}
+          >
+            <FaPhone aria-hidden="true" />
+          </a>
+          <a
+            href={`tel:${BUSINESS.phonePrimary}`}
+            onClick={() => reportCallConversion('header')}
+            className="btn btn-accent hidden py-2 lg:inline-flex"
           >
             <FaPhone aria-hidden="true" className="mr-2" />
             {formatPhone(BUSINESS.phonePrimary)}
@@ -91,7 +103,7 @@ export default function Header() {
             aria-expanded={isMenuOpen}
             aria-controls="mobile-menu"
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            className={`p-2 text-2xl lg:hidden ${solid ? 'text-primary' : 'text-white'}`}
+            className={`inline-flex h-11 w-11 items-center justify-center text-2xl lg:hidden ${solid ? 'text-primary' : 'text-white'}`}
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
