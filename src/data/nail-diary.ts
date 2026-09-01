@@ -27,6 +27,24 @@ export const NAIL_DIARY_IMAGES: PortfolioImage[] = [
     width: 800,
     height: 1000,
   },
+  {
+    name: 'nail-diary-05',
+    alt: 'Ruby red glitter square nails with leopard print and rhinestone accents',
+    width: 800,
+    height: 800,
+  },
+  {
+    name: 'nail-diary-06',
+    alt: 'Sky blue ombre almond nails with hand-painted hearts on a nude accent',
+    width: 800,
+    height: 1000,
+  },
+  {
+    name: 'nail-diary-07',
+    alt: 'Midnight navy oval nails with holographic silver glitter shimmer',
+    width: 800,
+    height: 1000,
+  },
 ];
 
 export const NAIL_DIARY_VIDEOS: PortfolioVideo[] = [

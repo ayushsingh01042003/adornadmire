@@ -18,4 +18,8 @@ export const OFFERS: Offer[] = [
     image: 'offer-hydra-facial',
     alt: 'Festive Hydra Facial offer — 50% off, now ₹1,700 at Adorn & Admire, Kalyan Nagar',
   },
+  {
+    image: 'offer-nails',
+    alt: 'Nail extensions from ₹999, cat-eye, ombre and French tip ₹1,499, 3D nail art ₹2,000, gel polish ₹499 plus GST at Adorn & Admire, Kalyan Nagar',
+  },
 ];

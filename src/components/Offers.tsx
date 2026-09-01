@@ -26,7 +26,7 @@ export default function Offers({ headingLevel = 'h2' }: { headingLevel?: 'h1' | 
           </p>
         </div>
 
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {OFFERS.map((offer) => (
             <li key={offer.image}>
               <figure className="overflow-hidden rounded-sm border border-gray-light bg-background shadow-sm">

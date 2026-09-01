@@ -32,13 +32,14 @@ const USED_SOURCES = new Set([
   'nail-diary-vid.mp4',
   'offer-hair-protein.jpg',
   'offer-hydra-facial.jpg',
+  'offer-nails.jpg',
   'product-botoliss-salon.jpg',
   'product-botoliss-pro100.jpg',
   'product-anddone-take-control.jpg',
   'product-anddone-begin-again.jpg',
   'product-loreal-xtenso.jpg',
   ...Array.from({ length: 14 }, (_, i) => `hair-colour-${String(i + 1).padStart(2, '0')}.jpg`),
-  ...Array.from({ length: 4 }, (_, i) => `nail-diary-${String(i + 1).padStart(2, '0')}.jpg`),
+  ...Array.from({ length: 7 }, (_, i) => `nail-diary-${String(i + 1).padStart(2, '0')}.jpg`),
 ]);
 
 const KEEP_FILES = new Set([
@@ -62,7 +63,7 @@ const KEEP_IMAGE_BASES = [
   { base: 'poster-vid1', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid2', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid3', widths: [960], formats: ['jpg'] },
-  ...['offer-hair-protein', 'offer-hydra-facial'].map((base) => ({
+  ...['offer-hair-protein', 'offer-hydra-facial', 'offer-nails'].map((base) => ({
     base,
     widths: [512, 1024],
     formats: ['avif', 'webp', 'jpg'],
@@ -79,7 +80,7 @@ const KEEP_IMAGE_BASES = [
     widths: [480, 960],
     formats: ['avif', 'webp', 'jpg'],
   })),
-  ...Array.from({ length: 4 }, (_, i) => ({
+  ...Array.from({ length: 7 }, (_, i) => ({
     base: `nail-diary-${String(i + 1).padStart(2, '0')}`,
     widths: [480, 960],
     formats: ['avif', 'webp', 'jpg'],

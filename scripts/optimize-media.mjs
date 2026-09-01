@@ -84,20 +84,26 @@ async function posterJpeg(input, name, width) {
  * wins on photographic content by a wide margin; JPEG stays as the universal
  * fallback for the <picture> element.
  */
-async function responsiveImage(input, name, widths, { fit = 'cover', height } = {}) {
+async function responsiveImage(
+  input,
+  name,
+  widths,
+  { fit = 'cover', height, withoutEnlargement = true } = {},
+) {
   const base = sharp(input, { failOn: 'none' }).rotate();
   const meta = await base.metadata();
   const written = [];
 
   for (const width of widths) {
     // Never upscale beyond a small margin: a 960px variant of a 480px source is
-    // pure bytes with no added detail.
-    if (width > (meta.width ?? width) * 1.5) continue;
+    // pure bytes with no added detail. Offer flyers pass withoutEnlargement:
+    // false so a 1024px variant always exists for the Offers <picture>.
+    if (withoutEnlargement && width > (meta.width ?? width) * 1.5) continue;
     written.push(width);
 
     const resizeOpts = height
       ? { width, height: Math.round((height / widths[widths.length - 1]) * width), fit }
-      : { width, fit: 'inside', withoutEnlargement: true };
+      : { width, fit: 'inside', withoutEnlargement };
 
     const pipeline = () => sharp(input, { failOn: 'none' }).rotate().resize(resizeOpts);
 
@@ -431,8 +437,10 @@ async function main() {
     .toFile(path.join(IMG_OUT, 'experience-1600.jpg'));
   log(`experience: 1600px jpg ${await sizeOf(path.join(IMG_OUT, 'experience-1600.jpg'))}`);
 
-  for (const name of ['offer-hair-protein', 'offer-hydra-facial']) {
-    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [512, 1024]);
+  for (const name of ['offer-hair-protein', 'offer-hydra-facial', 'offer-nails']) {
+    await responsiveImage(path.join(SRC, `${name}.jpg`), name, [512, 1024], {
+      withoutEnlargement: false,
+    });
   }
 
   console.log('\nProduct images');
@@ -453,7 +461,7 @@ async function main() {
   }
 
   console.log('\nNail diary portfolio');
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 7; i++) {
     const name = `nail-diary-${String(i).padStart(2, '0')}`;
     await responsiveImage(path.join(SRC, `${name}.jpg`), name, [480, 960]);
   }
