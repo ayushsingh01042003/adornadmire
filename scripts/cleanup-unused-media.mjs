@@ -30,6 +30,10 @@ const USED_SOURCES = new Set([
   'vid2.mp4',
   'vid3.mp4',
   'nail-diary-vid.mp4',
+  'offer-happy-hours.jpg',
+  'offer-festive-combos.jpg',
+  'offer-mens-ultimate.jpg',
+  'offer-memberships.jpg',
   'offer-hair-protein.jpg',
   'offer-hydra-facial.jpg',
   'offer-nails.jpg',
@@ -63,7 +67,15 @@ const KEEP_IMAGE_BASES = [
   { base: 'poster-vid1', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid2', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid3', widths: [960], formats: ['jpg'] },
-  ...['offer-hair-protein', 'offer-hydra-facial', 'offer-nails'].map((base) => ({
+  ...[
+    'offer-happy-hours',
+    'offer-festive-combos',
+    'offer-mens-ultimate',
+    'offer-memberships',
+    'offer-hair-protein',
+    'offer-hydra-facial',
+    'offer-nails',
+  ].map((base) => ({
     base,
     widths: [512, 1024],
     formats: ['avif', 'webp', 'jpg'],

@@ -35,8 +35,8 @@ export default function Offers({ headingLevel = 'h2' }: { headingLevel?: 'h1' | 
                   alt={offer.alt}
                   widths={[512, 1024]}
                   sizes="(min-width: 1024px) 45vw, (min-width: 640px) 45vw, 100vw"
-                  width={1024}
-                  height={1024}
+                  width={offer.width ?? 1024}
+                  height={offer.height ?? 1024}
                   className="h-auto w-full object-contain"
                 />
               </figure>

@@ -437,7 +437,15 @@ async function main() {
     .toFile(path.join(IMG_OUT, 'experience-1600.jpg'));
   log(`experience: 1600px jpg ${await sizeOf(path.join(IMG_OUT, 'experience-1600.jpg'))}`);
 
-  for (const name of ['offer-hair-protein', 'offer-hydra-facial', 'offer-nails']) {
+  for (const name of [
+    'offer-happy-hours',
+    'offer-festive-combos',
+    'offer-mens-ultimate',
+    'offer-memberships',
+    'offer-hair-protein',
+    'offer-hydra-facial',
+    'offer-nails',
+  ]) {
     await responsiveImage(path.join(SRC, `${name}.jpg`), name, [512, 1024], {
       withoutEnlargement: false,
     });
