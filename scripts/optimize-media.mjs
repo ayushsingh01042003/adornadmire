@@ -441,6 +441,7 @@ async function main() {
     'offer-happy-hours',
     'offer-festive-combos',
     'offer-mens-ultimate',
+    'offer-mens-grooming',
     'offer-memberships',
     'offer-hair-protein',
     'offer-hydra-facial',

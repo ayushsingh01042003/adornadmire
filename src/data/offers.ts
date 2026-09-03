@@ -32,6 +32,12 @@ export const OFFERS: Offer[] = [
     height: 1024,
   },
   {
+    image: 'offer-mens-grooming',
+    alt: 'Men’s Grooming package — haircut, beard trim, hair spa and de-tan for ₹1,499, down from ₹2,499 at Adorn & Admire, Kalyan Nagar',
+    width: 682,
+    height: 1024,
+  },
+  {
     image: 'offer-memberships',
     alt: 'Exclusive memberships at Adorn & Admire: Silver ₹999 for 6 months, Gold ₹1,499 for 6 months, Platinum ₹2,499 for 1 year',
     width: 1024,
