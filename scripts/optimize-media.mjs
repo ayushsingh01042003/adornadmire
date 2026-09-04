@@ -283,7 +283,7 @@ function pngToIco(png, size) {
 }
 
 /**
- * The source logo is a black wordmark on transparency, so it disappears on the
+ * The wordmark logo is a black mark on transparency, so it disappears on the
  * dark footer and over the hero video. Negating the colour channels while
  * preserving alpha yields a white wordmark for those placements.
  */
@@ -307,38 +307,26 @@ async function buildLogoVariants() {
   log('logo: logo-light-280/560 (white), logo-dark-280/560 (black)');
 }
 
+/**
+ * Favicons are cropped from the gold "A²" mark in the wide logo lockup
+ * (logo-icon-mark.jpg), rather than the wordmark logo, since a wordmark
+ * squashed into a 32px square is illegible.
+ */
 async function buildIcons() {
-  const logo = path.join(SRC, 'logo.avif');
+  const mark = await sharp(path.join(SRC, 'logo-icon-mark.jpg'))
+    .extract({ left: 225, top: 0, width: 235, height: 235 })
+    .toBuffer();
 
-  // The logo is a wide wordmark; padding it into a square keeps it legible at
-  // favicon sizes instead of being squashed.
-  const square = async (size, background) =>
-    sharp(logo)
-      .resize(Math.round(size * 0.86), Math.round(size * 0.86), {
-        fit: 'contain',
-        background: { r: 0, g: 0, b: 0, alpha: 0 },
-      })
-      .extend({
-        top: Math.round(size * 0.07),
-        bottom: Math.round(size * 0.07),
-        left: Math.round(size * 0.07),
-        right: Math.round(size * 0.07),
-        background,
-      })
-      .resize(size, size, { fit: 'contain', background })
-      .png()
-      .toBuffer();
+  const square = async (size) => sharp(mark).resize(size, size, { fit: 'cover' }).png().toBuffer();
 
-  const opaque = { r: 0xf8, g: 0xf6, b: 0xf5, alpha: 1 };
+  await writeFile(path.join(PUB, 'apple-touch-icon.png'), await square(180));
+  await writeFile(path.join(PUB, 'icon-192.png'), await square(192));
+  await writeFile(path.join(PUB, 'icon-512.png'), await square(512));
 
-  await writeFile(path.join(PUB, 'apple-touch-icon.png'), await square(180, opaque));
-  await writeFile(path.join(PUB, 'icon-192.png'), await square(192, opaque));
-  await writeFile(path.join(PUB, 'icon-512.png'), await square(512, opaque));
-
-  const ico = await square(32, opaque);
+  const ico = await square(32);
   await writeFile(path.join(PUB, 'favicon.ico'), pngToIco(ico, 32));
 
-  log('icons: favicon.ico, apple-touch-icon, icon-192, icon-512');
+  log('icons: favicon.ico, apple-touch-icon, icon-192, icon-512 (from logo-icon-mark)');
 }
 
 /**
@@ -438,6 +426,7 @@ async function main() {
   log(`experience: 1600px jpg ${await sizeOf(path.join(IMG_OUT, 'experience-1600.jpg'))}`);
 
   for (const name of [
+    'offer-nanoplastia',
     'offer-happy-hours',
     'offer-festive-combos',
     'offer-mens-ultimate',

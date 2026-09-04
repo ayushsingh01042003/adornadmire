@@ -14,6 +14,12 @@ export interface Offer {
 
 export const OFFERS: Offer[] = [
   {
+    image: 'offer-nanoplastia',
+    alt: 'Advanced Nanoplastia Hair Care, any length ₹6,999 down from ₹8,999, plus 5% off retail products at Adorn & Admire, Kalyan Nagar',
+    width: 1054,
+    height: 1492,
+  },
+  {
     image: 'offer-happy-hours',
     alt: 'Happy Hours Monday to Thursday: pay for pedicure get manicure free, pay for global hair colour get one root touch-up free, pay for facial get upper lip and underarm threading free, pay for hair spa get haircut free at Adorn & Admire',
     width: 682,
