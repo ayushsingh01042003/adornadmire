@@ -56,9 +56,16 @@ export function formatPhone(e164: string): string {
 
 export const REVIEW_COUNT_LABEL = `${BUSINESS.reviewCount.toLocaleString('en-IN')}+`;
 
-/** Google Analytics 4 property carried over from the previous domain so the
- *  reporting history stays continuous across the migration. */
-export const GA4_MEASUREMENT_ID = 'G-BT974BE1LV';
+/**
+ * Google Analytics 4 measurement ID for the adornadmire.in property (520053765).
+ *
+ * The previous value 'G-BT974BE1LV' belonged to the retired adornadmire.com
+ * property and is dead: googletagmanager.com/gtag/js?id=G-BT974BE1LV answers
+ * 404, so the stream never initialised and no hit ever reached /g/collect.
+ * An empty string skips the GA4 config rather than pointing the tag at a
+ * stream that no longer exists.
+ */
+export const GA4_MEASUREMENT_ID = 'G-1X50XDJ1WQ';
 
 /** Google Ads conversion tracking, already live on the deployed site. */
 export const GOOGLE_ADS_ID = 'AW-10873835846';

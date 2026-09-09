@@ -87,18 +87,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema()) }}
         />
 
-        {/* Google tag: one loader, configured for both the GA4 property carried
-            over from the previous domain and the existing Ads account. */}
+        {/* Google tag: one loader for the Ads account, plus the GA4 property
+            once a measurement ID is set. Configuring an ID whose stream no
+            longer exists buys a 404 on every page load and collects nothing,
+            so the GA4 line is omitted while the ID is blank. */}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`} />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GOOGLE_ADS_ID}');
-gtag('config', '${GA4_MEASUREMENT_ID}');
-            `.trim(),
+            __html: [
+              'window.dataLayer = window.dataLayer || [];',
+              'function gtag(){dataLayer.push(arguments);}',
+              "gtag('js', new Date());",
+              `gtag('config', '${GOOGLE_ADS_ID}');`,
+              ...(GA4_MEASUREMENT_ID ? [`gtag('config', '${GA4_MEASUREMENT_ID}');`] : []),
+            ].join('\n'),
           }}
         />
       </head>
