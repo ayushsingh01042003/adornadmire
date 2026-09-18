@@ -90,7 +90,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         {/* Google tag: one loader for the Ads account, plus the GA4 property
             once a measurement ID is set. Configuring an ID whose stream no
             longer exists buys a 404 on every page load and collects nothing,
-            so the GA4 line is omitted while the ID is blank. */}
+            so the GA4 line is omitted while the ID is blank.
+
+            The config calls are gated to the production hostnames: every
+            Vercel preview deployment runs this same code, and without the
+            guard each preview URL sends real hits into the live Ads/GA4
+            data and shows up in Google Ads as an "additional domain
+            detected" warning that never stops growing. */}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ADS_ID}`} />
         <script
           dangerouslySetInnerHTML={{
@@ -98,8 +104,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
               'window.dataLayer = window.dataLayer || [];',
               'function gtag(){dataLayer.push(arguments);}',
               "gtag('js', new Date());",
-              `gtag('config', '${GOOGLE_ADS_ID}');`,
-              ...(GA4_MEASUREMENT_ID ? [`gtag('config', '${GA4_MEASUREMENT_ID}');`] : []),
+              "if (['adornadmire.in', 'www.adornadmire.in'].includes(window.location.hostname)) {",
+              `  gtag('config', '${GOOGLE_ADS_ID}');`,
+              ...(GA4_MEASUREMENT_ID ? [`  gtag('config', '${GA4_MEASUREMENT_ID}');`] : []),
+              '}',
             ].join('\n'),
           }}
         />
