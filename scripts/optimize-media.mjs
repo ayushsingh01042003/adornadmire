@@ -393,6 +393,8 @@ async function main() {
   // cropped to fill a wide viewport.
   await optimizeVideo('background-vid', { start: 0, duration: 9, maxHeight: 720 });
   await optimizeVideo('nail-diary-vid', { start: 0, duration: 15 });
+  await optimizeVideo('hair-treatment-01', { start: 0, duration: 15 });
+  await optimizeVideo('hair-treatment-02', { start: 0, duration: 7 });
 
   console.log('\nVideo posters');
   for (const [name, width] of [
@@ -400,6 +402,8 @@ async function main() {
     ['poster-vid2', 960],
     ['poster-vid3', 960],
     ['poster-background-vid', 480],
+    ['poster-hair-treatment-01', 960],
+    ['poster-hair-treatment-02', 960],
   ]) {
     const videoName = name.replace('poster-', '');
     const videoPath = path.join(MEDIA_OUT, `${videoName}.mp4`);

@@ -35,6 +35,21 @@ export interface GallerySection {
   items: GalleryItem[];
 }
 
+const HAIR_TREATMENT_VIDEOS: GalleryVideoItem[] = [
+  {
+    type: 'video',
+    id: 'hair-treatment-01',
+    title: 'Colour & finish',
+    description: 'Long-length colour with a glossy, healthy finish in our styling chairs.',
+  },
+  {
+    type: 'video',
+    id: 'hair-treatment-02',
+    title: 'Smoothing treatment',
+    description: 'Silky straight results from our in-salon keratin and spa rituals.',
+  },
+];
+
 const SALON_VIDEOS: GalleryVideoItem[] = [
   {
     type: 'video',
@@ -86,6 +101,10 @@ export const GALLERY_SECTIONS: GallerySection[] = [
   {
     heading: 'Inside the salon',
     items: [...SALON_VIDEOS, ...NAIL_DIARY_VIDEOS.map(toVideoItem)],
+  },
+  {
+    heading: 'Hair treatment',
+    items: [...HAIR_TREATMENT_VIDEOS],
   },
   {
     heading: 'Hair colour',

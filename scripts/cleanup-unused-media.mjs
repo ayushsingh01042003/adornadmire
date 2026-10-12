@@ -31,6 +31,8 @@ const USED_SOURCES = new Set([
   'vid2.mp4',
   'vid3.mp4',
   'nail-diary-vid.mp4',
+  'hair-treatment-01.mp4',
+  'hair-treatment-02.mp4',
   'offer-nanoplastia.jpg',
   'offer-happy-hours.jpg',
   'offer-festive-combos.jpg',
@@ -70,6 +72,8 @@ const KEEP_IMAGE_BASES = [
   { base: 'poster-vid1', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid2', widths: [960], formats: ['jpg'] },
   { base: 'poster-vid3', widths: [960], formats: ['jpg'] },
+  { base: 'poster-hair-treatment-01', widths: [960], formats: ['jpg'] },
+  { base: 'poster-hair-treatment-02', widths: [960], formats: ['jpg'] },
   ...[
     'offer-nanoplastia',
     'offer-happy-hours',
@@ -115,6 +119,10 @@ const KEEP_MEDIA = new Set([
   'vid3.webm',
   'nail-diary-vid.mp4',
   'nail-diary-vid.webm',
+  'hair-treatment-01.mp4',
+  'hair-treatment-01.webm',
+  'hair-treatment-02.mp4',
+  'hair-treatment-02.webm',
 ]);
 
 function buildKeepSet() {
